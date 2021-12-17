@@ -1,46 +1,101 @@
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 require('dotenv').config();
 
 exports.signup = (req, res, next) => {
-    bcrypt.hash(req.body.password, 10)
+    const user = JSON.parse(req.body.user);
+    const password = user.password;
+    bcrypt.hash(password, 10)
         .then(hash => {
-            User.sync({ alter: true }).then(() => {
-                User.create({
-                    email: req.body.email,
+            const newUser = req.file ?
+                {
+                    ...user,
+                    password: hash,
+                    profilePicture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                } : {
+                    ...user,
                     password: hash
-                })
-                    .then(() => res.status(200).json({ message: "Utilisateur créé" }))
-                    .catch(error => res.status(400).json({ error }));
+                }
+
+            User.create({
+                ...newUser
             })
-                .catch(error => res.status(500).json({ error }));
+                .then(user => res.status(200).json(user))
+                .catch(error => res.status(400).json({ error }));
         })
         .catch(error => res.status(400).json({ error }));
 }
 
 exports.login = (req, res, next) => {
-    User.sync({ alter: true })
-        .then(() => {
-            User.findOne({ where: { email: req.body.email } })
-                .then(user => {
-                    bcrypt.compare(req.body.password, user.password)
-                        .then(valid => {
-                            if (!valid) {
-                                return res.status(401).json({ error: 'Mot de passe incorrect' });
-                            }
-                            res.status(200).json({
-                                userId: user.id,
-                                token: jwt.sign(
-                                    { userId: user.id },
-                                    process.env.DB_SECRET_TOKEN,
-                                    { expiresIn: '24h' }
-                                )
-                            });
-                        })
-                        .catch(error => res.status(500).json({ error }));
+    User.findOne({ where: { email: req.body.email } })
+        .then(user => {
+            bcrypt.compare(req.body.password, user.password)
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(401).json({ error: 'Mot de passe incorrect' });
+                    }
+                    res.status(200).json({
+                        userId: user.id,
+                        token: jwt.sign(
+                            { userId: user.id },
+                            process.env.DB_SECRET_TOKEN,
+                            { expiresIn: '24h' }
+                        )
+                    });
                 })
-                .catch(error => res.status(401).json({ error: "Utilisateur non trouvé" }));
+                .catch(error => res.status(500).json({ error }));
+        })
+        .catch(error => res.status(401).json({ error: "Utilisateur non trouvé" }));
+};
+
+exports.modifyUser = (req, res, next) => {
+    const userObject = JSON.parse(req.body.user);
+
+    const userUpdated = req.file ?
+        {
+            ...userObject,
+            profilePicture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+        } : {
+            ...userObject
+        }
+
+    const updateUser = () => {
+        User.update(userUpdated, { where: { id: req.params.id } })
+            .then(() => res.status(200).json({ message: "Utilisateur modifié" }))
+            .catch(error => res.status(400).json({ error }));
+    }
+
+    if (req.file) {
+        User.findOne({ where: { id: req.params.id } })
+            .then(user => {
+                const filename = user.profilePicture.split('/images')[1];
+                fs.unlink(`images/${filename}`, () => {
+                    updateUser();
+                })
+            })
+            .catch(error => res.status(500).json({ error }));
+    } else {
+        updateUser();
+    }
+}
+
+exports.deleteUser = (req, res, next) => {
+    if(req.file) {
+        User.findOne({ where: { id: req.params.id } })
+        .then(user => {
+            const filename = user.profilePicture.split('/images')[1];
+            fs.unlink(`images/${filename}`, () => {
+                User.destroy({ where: { id: req.params.id } })
+                    .then(() => res.status(200).json({ message: 'Utilisateur supprimé' }))
+                    .catch(error => res.status(400).json({ error }));
+            })
         })
         .catch(error => res.status(500).json({ error }));
-};
+    } else {
+        User.destroy({ where: { id: req.params.id } })
+                    .then(() => res.status(200).json({ message: 'Utilisateur supprimé' }))
+                    .catch(error => res.status(400).json({ error }));
+    }  
+}

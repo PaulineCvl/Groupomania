@@ -2,6 +2,9 @@ const Sequelize = require('sequelize');
 const { DataTypes } = Sequelize;
 require('dotenv').config();
 
+const Like = require('./Like');
+const Comment = require('./Comment');
+
 const sequelize = new Sequelize('groupomaniatest', 'root', process.env.DB_CONNECT_SEQUELIZE, {
     dialect: 'mysql'
 });
@@ -13,5 +16,11 @@ const Post = sequelize.define('post', {
 {
     freezeTableName: true,
 });
+
+Post.hasMany(Like, {onDelete: 'CASCADE'});
+Like.belongsTo(Post, {onDelete: 'CASCADE'});
+
+Post.hasMany(Comment, {onDelete: 'CASCADE'});
+Comment.belongsTo(Post, {onDelete: 'CASCADE'});
 
 module.exports = Post;
