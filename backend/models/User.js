@@ -11,9 +11,10 @@ const sequelize = new Sequelize('groupomaniatest', 'root', process.env.DB_CONNEC
 });
 
 const User = sequelize.define('user', {
-    email: {type: DataTypes.STRING, allowNull: false},
+    email: {type: DataTypes.STRING, allowNull: false, unique: true},
     password: {type: DataTypes.STRING, allowNull: false},
     admin: {type: DataTypes.BOOLEAN, defaultValue: false},
+    username: {type: DataTypes.STRING},
     profilePicture: {type: DataTypes.STRING},
     description: {type: DataTypes.TEXT}
 },
