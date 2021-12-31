@@ -5,7 +5,7 @@ const fs = require('fs');
 require('dotenv').config();
 
 exports.signup = (req, res, next) => {
-    const user = JSON.parse(req.body.user);
+    const user = req.body.user;
     const password = user.password;
     bcrypt.hash(password, 10)
         .then(hash => {
@@ -29,9 +29,11 @@ exports.signup = (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
-    User.findOne({ where: { email: req.body.email } })
+    const userLogged = req.body.user;
+
+    User.findOne({ where: { email: userLogged.email } })
         .then(user => {
-            bcrypt.compare(req.body.password, user.password)
+            bcrypt.compare(userLogged.password, user.password)
                 .then(valid => {
                     if (!valid) {
                         return res.status(401).json({ error: 'Utilisateur ou mot de passe incorrect' });
