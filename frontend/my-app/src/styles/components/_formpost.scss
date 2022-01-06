@@ -1,0 +1,48 @@
+.formPost {
+    padding-top: 2em;
+
+    textarea {
+        width: 100%;
+        height: 90px;
+        resize: none;
+        font-family: 'Montserrat';
+        border-style: none;
+        padding: 1em;
+        border-radius: 15px;
+    }
+
+    label {
+        float: right;
+        height: 25px;
+        background-color: $grey;
+        padding: 0.5em;
+        font-size: 12px;
+        border-radius: 5px;
+    }
+
+    &-imageUploaded {
+        font-size: 12px;
+        text-align: start;
+        margin-top: 0.5em;
+        height: 15px;
+
+        span {
+            color: $color-secondary;
+            font-family: 'MontserratBold';
+        }
+    }
+}
+
+#file {
+    display: none;
+}
+
+#submitpost {
+    background-color: $color-secondary;
+    border-style: none;
+    border-radius: 5px;
+    float: right;
+    margin-right: 10px;
+    height: 25px;
+    padding: 6px;
+}

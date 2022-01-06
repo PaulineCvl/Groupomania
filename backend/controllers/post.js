@@ -3,10 +3,8 @@ const Like = require('../models/Like');
 const fs = require('fs');
 
 exports.createPost = (req, res, next) => {
-    const postObject = JSON.parse(req.body.post);
-
     Post.create({
-        ...postObject,
+        description: req.body.description,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     })
         .then(() => res.status(201).json({ message: 'Post créé' }))
@@ -26,14 +24,12 @@ exports.getOnePost = (req, res, next) => {
 }
 
 exports.modifyPost = (req, res, next) => {
-    const postObject = JSON.parse(req.body.post);
-
     const postUpdated = req.file ?
         {
-            ...postObject,
+            description: req.body.description,
             imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
         } : {
-            ...postObject
+            description: req.body.description
         }
 
     const updatePost = () => {
@@ -96,5 +92,11 @@ exports.sendLike = (req, res, next) => {
                     .catch(error => res.status(400).json({ error }));
             }
         })
+        .catch(error => res.status(404).json({ error }));
+}
+
+exports.getAllLikes = (req, res, next) => {
+    Like.findAll({ where: { postId: req.params.id } })
+        .then(likes => { res.status(200).json(likes) })
         .catch(error => res.status(404).json({ error }));
 }
