@@ -1,0 +1,35 @@
+.comment {
+    margin: 1em 0;
+    padding: 0.5em 2em;
+    font-size: map-get($font-size, medium);
+    background-color: $white;
+    border-radius: 15px;
+    border: solid 1px $black;
+
+    &--message {
+        p {
+            text-align: left;
+            margin-top: 0;
+            font-size: map-get($font-size, large);
+        }
+    }
+    
+    &--footer {
+        display: flex;
+        margin-bottom: 0.5em;
+
+        button {
+            background: none;
+            border-style: none;
+            text-decoration: underline;
+            font-size: map-get($font-size, small);
+            cursor: pointer;
+            padding: 0;
+            margin-right: 1em;
+        }
+
+        .delete {
+            color: $color-secondary;
+        }
+    }
+}

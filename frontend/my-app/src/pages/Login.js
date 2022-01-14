@@ -1,6 +1,6 @@
 import React from 'react';
+import localforage from 'localforage';
 import { NavLink, useNavigate } from 'react-router-dom';
-import Logo from '../components/Logo';
 import axios from 'axios';
 
 const Login = (props) => {
@@ -16,26 +16,31 @@ const Login = (props) => {
         axios.post('http://localhost:8080/api/auth/login', { user })
             .then(response => {
                 const token = response.data.token;
-                sessionStorage.setItem('token', token);
-                navigate('/home')
+                const userId = response.data.userId;
+                localforage.setItem('token', token);
+                localforage.setItem('userId', userId);
+                navigate('/home');
             })
             .catch(error => { console.log(error) });
     }
 
-        return (
-            <div>
-                <Logo />
-                <div className='connect'>
-                    <h1>Bienvenue !</h1>
+    return (
+        <div className='connect-page'>
+            <div className='connect'>
+                <div>
+                    <img src="./icon-left-font-monochrome-white.png" alt="Logo Groupomania" />
+                </div>
+                <div>
                     <form onSubmit={handleSubmit}>
-                        <input type='email' placeholder='Email' name='email'/>
-                        <input type='password' placeholder='Mot de passe' name='password'/>
+                        <input type='email' placeholder='Email' name='email' />
+                        <input type='password' placeholder='Mot de passe' name='password' />
                         <input type='submit' id='loginSubmit' value='Se connecter' />
                     </form>
-                    <NavLink to="signup">Signup</NavLink>
+                    <NavLink to="signup">S'inscrire</NavLink>
                 </div>
             </div>
-        );
+        </div>
+    );
 };
 
 export default Login;

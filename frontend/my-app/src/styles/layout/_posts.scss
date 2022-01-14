@@ -1,0 +1,16 @@
+.posts-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 75px;
+    padding: 0;
+
+    a {
+        text-decoration: none;
+        color: $black;
+    }
+}
+
+.nopost {
+    margin: 3em 0;
+    text-align: left;
+}

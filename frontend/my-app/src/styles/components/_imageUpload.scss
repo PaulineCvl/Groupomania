@@ -1,0 +1,11 @@
+.imageUploaded {
+    margin: 0;
+    margin-left: 5px;
+    font-size: map-get($font-size, small);
+    text-align: start;
+
+    span {
+        color: $color-secondary;
+        font-family: 'MontserratBold';
+    }
+}

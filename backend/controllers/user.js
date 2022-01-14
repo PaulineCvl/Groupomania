@@ -52,21 +52,47 @@ exports.login = (req, res, next) => {
         .catch(() => res.status(401).json({ error: 'Utilisateur ou mot de passe incorrect' }));
 };
 
-exports.modifyUser = (req, res, next) => {
-    const userObject = JSON.parse(req.body.user);
+exports.findOneUser = (req, res, next) => {
+    User.findOne({ where: { id: req.params.id } })
+        .then(user => res.status(200).json(user))
+        .catch(error => res.status(404).json({ error }));
+}
 
-    const userUpdated = req.file ?
-        {
-            ...userObject,
-            profilePicture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-        } : {
-            ...userObject
-        }
+exports.modifyUser = (req, res, next) => {
+    const userObject = req.body;
+    const password = req.body.password;
 
     const updateUser = () => {
-        User.update(userUpdated, { where: { id: req.params.id } })
-            .then(() => res.status(201).json({ message: 'Utilisateur modifié' }))
-            .catch(error => res.status(400).json({ error }));
+        if (password) {
+            bcrypt.hash(password, 10)
+                .then(hash => {
+                    const userUpdated = req.file ?
+                        {
+                            ...userObject,
+                            password: hash,
+                            profilePicture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                        } : {
+                            ...userObject,
+                            password: hash
+                        }
+
+                    User.update(userUpdated, { where: { id: req.params.id } })
+                        .then(() => res.status(201).json({ message: 'Utilisateur modifié' }))
+                        .catch(error => res.status(400).json({ error }));
+                })
+                .catch(error => res.status(500).json({ error }));
+        } else {
+            const userUpdated = req.file ?
+                {
+                    ...userObject,
+                    profilePicture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                } : {
+                    ...userObject
+                }
+            User.update(userUpdated, { where: { id: req.params.id } })
+                .then(() => res.status(201).json({ message: 'Utilisateur modifié' }))
+                .catch(error => res.status(400).json({ error }));
+        }
     }
 
     if (req.file) {

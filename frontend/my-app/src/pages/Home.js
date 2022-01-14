@@ -4,7 +4,7 @@ import Posts from '../components/Posts';
 
 const Home = (props) => {
     return (
-        <div>
+        <div className='home'>
             <Header />
             <Posts />
         </div>

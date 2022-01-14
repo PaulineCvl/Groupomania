@@ -1,0 +1,11 @@
+.card {
+    width: 400px;
+    padding: 3em;
+    margin: 0 20px 20px 0;
+    background-color: $grey;
+    border-radius: 50px;
+
+    &-description p {
+        margin-block-start: 2em;
+    }
+}

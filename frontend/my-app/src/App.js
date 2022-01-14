@@ -5,8 +5,9 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Post from './pages/Post';
+import Admin from './pages/Admin';
 
-function App() {
+function App() {  
   return (
     <div className="App">
       <Routes>
@@ -14,6 +15,7 @@ function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="home" element={<Home />} />
         <Route path="account" element={<Account />} />
+        <Route path="admin" element={<Admin />} />
         <Route path=":id" element={<Post />} />
       </Routes>
     </div>

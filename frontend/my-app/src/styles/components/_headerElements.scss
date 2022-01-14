@@ -1,0 +1,14 @@
+.header-element {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    &--username {
+        color: $color-secondary;
+        margin-right: 1em;
+    }
+
+    &--date {
+        font-size: map-get($font-size, small);
+    }
+}

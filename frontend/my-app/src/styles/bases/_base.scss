@@ -3,7 +3,28 @@
 }
 
 body {
-    background-color: $color-primary;
     font-family: 'Montserrat';
     margin: 0;
+    background-color: $color-primary;
+}
+
+html, body, #root, .App, .connect-page, .connect, .home, .account, .admin, .background, .container {
+    height: 100%;
+}
+
+img {
+    width: 100%;
+}
+
+form {
+    display: flex;
+}
+
+textarea {
+    border-radius: 15px;
+    padding: 1em 2em;
+    font-family: 'Montserrat';
+    resize: none;
+    width: 100%;
+    border: solid 1px $black;
 }

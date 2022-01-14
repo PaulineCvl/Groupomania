@@ -1,12 +1,19 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import localforage from 'localforage';
+import React, { useEffect, useState } from 'react';
 
 const Comment = (props) => {
     const [message, setMessage] = useState('');
     const { id } = props;
     const { getComments } = props;
     const urlAPI = `http://localhost:8080/api/posts/${id}/comment`;
-    const token = sessionStorage.getItem('token');
+    const [token, setToken] = useState();
+
+    useEffect(() => {
+        localforage.getItem('token')
+        .then(response => setToken(response))
+        .catch(error => console.log(error));
+    }, []);
 
     const handleChange = (e) => {
         setMessage(e.target.value);
@@ -25,7 +32,7 @@ const Comment = (props) => {
             }
         })
         .then(response => {
-            getComments();
+            getComments(token);
             setMessage('');
             console.log(response);
         })
@@ -35,7 +42,7 @@ const Comment = (props) => {
     return (
         <div className='comment-form'>
             <form onSubmit={handleSubmit}>
-                <textarea placeholder='Commenter' name='comment' value={message} onChange={handleChange} />
+                <textarea placeholder='Écrire un commentaire' name='comment' value={message} onChange={handleChange} />
                 <input type='submit' value='Commenter' className='button red' />
             </form>
         </div>

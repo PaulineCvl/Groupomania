@@ -1,0 +1,15 @@
+input {
+    background-color: $grey;
+    border-style: unset;
+    font-family: 'Montserrat';
+}
+
+.connect input {
+    width: 100%;
+    height: 30px;
+    margin: 0.5em;
+}
+
+#file, #profilePicture, #content-file {
+    display: none;
+}

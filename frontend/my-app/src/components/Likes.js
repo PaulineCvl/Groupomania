@@ -1,54 +1,69 @@
 import axios from 'axios';
+import localforage from 'localforage';
 import React, { useEffect, useState } from 'react';
 
 const Likes = (props) => {
-    const [data, setData] = useState([]);
-    const [likes, setLikes] = useState(0);
-    const [isLiked, setIsLiked] = useState(false);
+    const [data, setData] = useState(0);
+    const [isLiked, setIsLiked] = useState();
     const { id } = props;
     const urlAPI = `http://localhost:8080/api/posts/${id}/like`;
-    const token = sessionStorage.getItem('token');
+    const [token, setToken] = useState();
 
     useEffect(() => {
+        localforage.getItem('token')
+        .then(token => {
+            getLikes(token);
+            setToken(token);
+        })
+        .catch(error => console.log(error));
+    }, []);
+
+    const getLikes = (token) => {
         axios.get(urlAPI, {
             headers: {
                 'Authorization': `token ${token}`
             }
         })
-        .then(response => setData(response.data))
-        .catch(error => console.log(error));
-    }, [])
+            .then(response => {
+                setData(response.data);
 
-    useEffect(() => {
-        let sum = 0;
+                localforage.getItem('userId')
+                .then(userId => userLiked(response.data, userId))
+                .catch(error => console.log(error));
+            })
+            .catch(error => console.log(error));
+    }
 
-        for (let i = 0; i < data.length; i++) {
-            sum += data[i].like;
-        }
-
-        setLikes(sum);
-    }, [data])
+    const userLiked = (data, userId) => {
+        data.forEach(element => {
+            if(userId === element.userId) {
+                setIsLiked(true);
+            } else {
+                setIsLiked(false);
+            }
+        })
+    }
 
     const handleLike = () => {
-        isLiked ? setIsLiked(false) : setIsLiked(true);
         axios.post(urlAPI, 1, {
             headers: {
                 'Authorization': `token ${token}`
             }
         })
-        .then(response => console.log(response))
-        .catch(error => console.log(error));
+            .then(() => {
+                getLikes(token);
+            })
+            .catch(error => console.log(error));
     }
 
-
     return (
-        <div className='post-likes'>
+        <div className='likes'>
             {isLiked ? (
-                <button onClick={handleLike}>Retirer mon like</button>
+                <button onClick={() => {handleLike(); setIsLiked(false)}}><i className="fas fa-thumbs-up liked" /></button>
             ) : (
-                <button onClick={handleLike}>Liker</button>
+                <button onClick={() => {handleLike(); setIsLiked(true)}}><i className="far fa-thumbs-up" /></button>
             )}
-            <p>{likes} personne(s) ont aimé ce post</p>
+            <p>{data.length > 0 ? data.length : 0} personne(s) ont aimé ce post</p>
         </div>
     );
 };

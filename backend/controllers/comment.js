@@ -11,7 +11,7 @@ exports.createComment = (req, res, next) => {
 }
 
 exports.getAllComments = (req, res, next) => {
-    Comment.findAll({ where: { postId: req.params.id } })
+    Comment.findAll({ where: { postId: req.params.id }, order: [['updatedAt', 'DESC']] })
         .then(comments => { res.status(200).json(comments) })
         .catch(error => res.status(404).json({ error }));
 }
@@ -34,4 +34,10 @@ exports.deleteComment = (req, res, next) => {
     Comment.destroy({ where: { id: req.params.id } })
         .then(() => res.status(200).json({ message: 'Commentaire supprimé' }))
         .catch(error => res.status(400).json({ error }));
+}
+
+exports.getReportedComments = (req, res, next) => {
+    Comment.findAll({ where: { isReported: true } })
+        .then(comments => res.status(200).json(comments))
+        .catch(error => res.status(404).json({ error }));
 }

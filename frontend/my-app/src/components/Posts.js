@@ -1,41 +1,52 @@
 import axios from 'axios';
+import localforage from 'localforage';
 import React, { useEffect, useState } from 'react';
 import Card from './Card';
 import FormPost from './FormPost';
 
 const Posts = () => {
-    const [data, setData] = useState([]);
-    const token = sessionStorage.getItem('token');
-    
+    const [posts, setPosts] = useState([]);
+    const [token, setToken] = useState();
 
-    const getDatas = function() {
+    useEffect(() => {
+        localforage.getItem('token')
+            .then(response => {
+                getDatas(response);
+                setToken(response);
+            })
+            .catch(error => console.log(error));
+    }, []);
+
+    const getDatas = (token) => {
         axios.get('http://localhost:8080/api/posts', {
             headers: {
                 'Authorization': `token ${token}`
             }
         })
-        .then(response => {
-            const postData = response.data;
-            setData(postData);
-        })
-        .catch(error => console.log(error));
+            .then(response => setPosts(response.data))
+            .catch(error => console.log(error));
     }
 
-    useEffect(() => {
-        getDatas();
-    }, []);
-
     return (
-        <div className='posts'>
-            <div className='posts-container'>
-            <FormPost getDatas={getDatas} />
-            <ul className='posts-list'>
-                {data.map((post) => (
-                    <Card post={post} key={post.id}/>
-                ))}
-            </ul>
+        <div className='background'>
+            {token ? (
+            <div className='container posts'>
+                <FormPost getDatas={getDatas} />
+                {posts.length > 0 ? (
+                    <ul className='posts-list'>
+                        {posts.map((post) => (
+                            <Card post={post} key={post.id} />
+                        ))}
+                    </ul>
+                ) : (
+                    <p className='nopost'>Aucun post créé</p>
+                )}
             </div>
-
+            ) : (
+                <div>
+                    <p>Loading...</p>
+                </div>
+            )}
         </div>
     );
 };

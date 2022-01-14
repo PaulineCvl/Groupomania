@@ -1,0 +1,77 @@
+.user-account {
+    font-size: map-get($font-size, medium);
+    text-align: end;
+
+    img {
+        width: 50%;
+    }
+        
+    form {
+        text-align: start;
+        flex-direction: column;
+        margin-left: 5px;
+    }
+
+    .fullname {
+        display: flex;
+    }
+    
+    .firstName, .lastName {
+        font-family: 'MontserratBold';
+        font-size: map-get($font-size, x-large);
+        color: $black;
+        margin-right: 10px;
+    }
+
+    label {
+        color: $color-secondary;
+        margin: 0.5em 0;
+        font-size: map-get($font-size, large);
+    } 
+
+    input {
+        &:focus-visible {
+            border-style: none;
+            outline: none;
+        }
+    }
+
+    .description {
+        margin-bottom: 1em;
+
+        &::placeholder {
+            color: darken($grey, 7);
+        }
+    }
+
+    &--button {
+        text-align: start;
+        padding: 2em 0;
+    }
+}
+
+.update {
+    &-image {
+        display: flex;
+        flex-direction: column;
+        align-items: end;
+        margin-top: 1em;
+    }
+
+    &-infos {
+        display: flex;
+        flex-direction: column;
+        text-align: start;
+
+        label {
+            margin: 0.5em;
+        }
+
+        input {
+            margin-left: 5px;
+            background-color: darken($grey, 10);
+            padding: 0.3em;
+            width: 50%;
+        }
+    }
+}

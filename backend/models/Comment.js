@@ -7,7 +7,8 @@ const sequelize = new Sequelize('groupomaniatest', 'root', process.env.DB_CONNEC
 });
 
 const Comment = sequelize.define('comment', {
-    message: {type: DataTypes.TEXT}
+    message: {type: DataTypes.TEXT},
+    isReported: {type: DataTypes.BOOLEAN, defaultValue: false}
 },
 {
     freezeTableName: true,

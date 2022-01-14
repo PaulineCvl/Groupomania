@@ -5,6 +5,7 @@ const fs = require('fs');
 exports.createPost = (req, res, next) => {
     Post.create({
         description: req.body.description,
+        userId: req.userId,
         imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     })
         .then(() => res.status(201).json({ message: 'Post créé' }))
@@ -100,3 +101,16 @@ exports.getAllLikes = (req, res, next) => {
         .then(likes => { res.status(200).json(likes) })
         .catch(error => res.status(404).json({ error }));
 }
+
+/* exports.getAllLikes = (req, res, next) => {
+    Like.findAll({ where: { postId: req.params.id } })
+        .then(likes => { 
+            User.findOne({where: {id: req.body.userId}})
+            .then(() => {
+                likes.push({userHasLiked: likes.map(currentLike => {
+                    return currentLike.userId
+                }).includes(user.id)})
+            })
+        })
+        .catch(error => res.status(404).json({ error }));
+} */

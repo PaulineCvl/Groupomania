@@ -1,0 +1,19 @@
+.likes {
+    display: flex;
+    padding-top: 15px;
+    font-size: map-get($font-size, small);
+
+    button {
+        background: none;
+        border-style: none;
+        cursor: pointer;
+    }
+
+    .fa-thumbs-up {
+        font-size: map-get($font-size, x-large);
+    }
+
+    .liked {
+        color: $color-primary;
+    }
+}
