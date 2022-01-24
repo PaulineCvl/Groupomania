@@ -1,6 +1,8 @@
 import axios from 'axios';
 import localforage from 'localforage';
 import React, { useEffect, useState } from 'react';
+import Modal from './Modal';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 const HandleComment = (props) => {
     const { postId } = props;
@@ -8,35 +10,44 @@ const HandleComment = (props) => {
     const { getComments } = props;
     const urlAPI = `http://localhost:8080/api/posts/${postId}/comment/${comment.id}`;
 
-    const [token, setToken] = useState();
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateContent, setUpdateContent] = useState('');
     const [user, setUser] = useState();
+    const [userId, setUserId] = useState();
     const [isReported, setIsReported] = useState();
+    const [allowUpdate, setAllowUpdate] = useState();
+    const [showModal, setShowModal] = useState();
+    const [showDeleteModal, setShowDeleteModal] = useState();
 
     useEffect(() => {
-        localforage.getItem('token')
-        .then(response => setToken(response))
-        .catch(error => console.log(error));
+        localforage.getItem('userId')
+            .then(userId => setUserId(userId))
+            .catch(error => console.log(error));
     }, []);
+
+    useEffect(() => {
+        if (userId === comment.userId) {
+            setAllowUpdate(true);
+        } else {
+            setAllowUpdate(false);
+        }
+    }, [userId])
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/auth/${comment.userId}`)
-        .then(response => {
-            const userData = response.data;
-            setUser(userData.firstName + ' ' + userData.lastName);
-        })
-        .catch(error => console.log(error));
+            .then(response => {
+                setUser(response.data);
+            })
+            .catch(error => console.log(error));
     }, []);
 
     useEffect(() => {
-        if(comment.isReported) {
+        if (comment.isReported) {
             setIsReported(true);
-        }else{
+        } else {
             setIsReported(false);
         }
     }, []);
-
 
     const dateParser = (date) => {
         let newDate = new Date(date).toLocaleDateString('fr-FR', {
@@ -49,26 +60,18 @@ const HandleComment = (props) => {
 
     const handleChange = (e) => {
         const commentUpdated = {
-            message: updateContent
+            message: updateContent ? updateContent : comment.message
         }
 
-        axios.put(urlAPI, commentUpdated, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
-        .then(() => setIsUpdating(false))
-        .catch(error => console.log(error));
+        axios.put(urlAPI, commentUpdated)
+            .then(() => setIsUpdating(false))
+            .catch(error => console.log(error));
     }
 
     const handleDelete = () => {
-        axios.delete(urlAPI, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
-        .then(() => getComments(token))
-        .catch(error => console.log(error));
+        axios.delete(urlAPI)
+            .then(() => getComments())
+            .catch(error => console.log(error));
     }
 
     const handleReport = () => {
@@ -76,40 +79,80 @@ const HandleComment = (props) => {
             isReported: true
         }
 
-        axios.put(urlAPI, commentReported, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        }).then(() => setIsReported(true))
-        .catch(error => console.log(error));
+        axios.put(urlAPI, commentReported)
+            .then(() => setIsReported(true))
+            .catch(error => console.log(error));
+    }
+
+    const handleDeleteReport = () => {
+        const commentReported = {
+            isReported: false
+        }
+
+        axios.put(urlAPI, commentReported)
+            .then(() => setIsReported(false))
+            .catch(error => console.log(error));
     }
 
     return (
         <div key={comment.id} className='comment' >
-            <div className='header-element'>
-                <p className='header-element--username'>{user}</p>
-                <p className='header-element--date'>Posté le {dateParser(comment.createdAt)}</p>
-            </div>
-            <div className='comment--message'>
-            {isUpdating ? (
-                <textarea autoFocus defaultValue={updateContent ? updateContent : comment.message} onChange={(e) => setUpdateContent(e.target.value)} />
+            {user ? (
+                <div className='comment-header'>
+                    <p className='comment-header--username' onClick={() => setShowModal(true)}>{user.firstName} {user.lastName}</p>
+                    <p className='comment-header--date'>Posté le {dateParser(comment.createdAt)}</p>
+                </div>
             ) : (
-                <p>{updateContent ? updateContent : comment.message}</p>
+                null
             )}
-            </div>
-            <div className='comment--footer'>
+
+            <div className='comment--message'>
                 {isUpdating ? (
-                    <button onClick={handleChange}>Valider</button>
+                    <textarea autoFocus defaultValue={updateContent ? updateContent : comment.message} onChange={(e) => setUpdateContent(e.target.value)} />
                 ) : (
-                    <button onClick={() => setIsUpdating(true)}>Modifier</button>
-                )}
-                <button onClick={handleDelete} className='delete'>Supprimer</button>
-                {isReported ? (
-                    <button>Commentaire signalé</button>
-                ) : (
-                    <button onClick={handleReport}>Signaler</button>
+                    <p>{updateContent ? updateContent : comment.message}</p>
                 )}
             </div>
+            {allowUpdate ? (
+                <div className='comment--footer allowed'>
+                    <div>
+                        {isUpdating ? (
+                            <button onClick={handleChange}>Valider</button>
+                        ) : (
+                            <button onClick={() => setIsUpdating(true)}>Modifier</button>
+                        )}
+                        <button onClick={() => setShowDeleteModal(true)} className='delete'>Supprimer</button>
+                        {showDeleteModal ? (
+                            <div className='modal'>
+                                <div className='modal-content'>
+                                    <p>Supprimer le commentaire ?</p>
+                                    <button className='button blue' onClick={handleDelete}>Oui</button>
+                                    <button className='button red' onClick={() => setShowDeleteModal(false)}>Non</button>
+                                </div>
+                            </div>
+                        ) : (
+                            null
+                        )}
+                    </div>
+                    {isReported ? (
+                        <button className='reported' onClick={handleDeleteReport}><FaExclamationTriangle /></button>
+                    ) : (
+                        <button onClick={handleReport}><FaExclamationTriangle /></button>
+                    )}
+                </div>
+            ) : (
+                <div className='comment--footer'>
+                    {isReported ? (
+                        <button className='reported' onClick={handleDeleteReport}><FaExclamationTriangle /></button>
+                    ) : (
+                        <button onClick={handleReport}><FaExclamationTriangle /></button>
+                    )}
+                </div>
+            )}
+            {showModal ? (
+                <Modal setShowModal={setShowModal} user={user} />
+            ) : (
+                null
+            )}
         </div>
     );
 };

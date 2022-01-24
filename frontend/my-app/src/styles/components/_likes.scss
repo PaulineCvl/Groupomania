@@ -1,5 +1,6 @@
 .likes {
     display: flex;
+    align-items: center;
     padding-top: 15px;
     font-size: map-get($font-size, small);
 
@@ -7,13 +8,22 @@
         background: none;
         border-style: none;
         cursor: pointer;
+
+        svg {
+            font-size: map-get($font-size, x-large);
+            margin: 10px;
+        }
+
+        &:active {
+            animation: button 500ms ease-in-out;
+        }
     }
 
-    .fa-thumbs-up {
-        font-size: map-get($font-size, x-large);
-    }
-
-    .liked {
+    .liked svg {
         color: $color-primary;
+    }
+
+    @media #{$breakpoint-small} {
+        justify-content: center;
     }
 }

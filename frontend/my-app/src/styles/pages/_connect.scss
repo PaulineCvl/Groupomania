@@ -1,17 +1,40 @@
 .connect {
     width: 50%;
     margin: auto;
+    padding: 10% 0;
 
     img {
-        width: 50%;
+        width: 30%;
+
+        @media #{$breakpoint-small} {
+            width: 100%;
+        }
+
+        @media #{$breakpoint-medium} {
+            width: 75%;
+        }
+
+        @media #{$breakpoint-large} {
+            width: 50%;
+        }
     }
     
     form {
         flex-direction: column;
         align-items: center;
-        width: 50%;
+        width: 40%;
         margin: auto;
-        
+        position: relative;
+
+        @media #{$breakpoint-small} {
+            width: 100%;
+        }
+        @media #{$breakpoint-medium} {
+            width: 75%;
+        }
+        @media #{$breakpoint-large} {
+            width: 50%;
+        }        
     }
 
     a {
@@ -21,6 +44,8 @@
 
 .connect-page {
     position: relative;
+    background-color: rgba(38, 58, 91, 0.6) !important;
+    margin: 0 !important;
 
     &::before {
         content: "";
@@ -31,7 +56,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        opacity: 0.4;
+        opacity: 1;
         z-index: -1;
     }
 }
@@ -46,4 +71,20 @@
     border-width: 0;
     color: white;
     font-size: map-get($font-size, large);
+}
+
+.invalid {
+    input {
+        border: solid 3px $red;
+
+        &:focus-visible {
+            outline: unset;
+        }
+    }
+
+    &-message {
+        margin-top: 0;
+        color: $red;
+        font-family: 'MontserratBold';
+    }
 }

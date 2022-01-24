@@ -9,18 +9,26 @@ const Comments = (props) => {
     const { id } = props;
     const urlAPI = `http://localhost:8080/api/posts/${id}/comment`;
 
+    const [token, setToken] = useState();
+  
     useEffect(() => {
         localforage.getItem('token')
-        .then(response => getComments(response))
+        .then(token => {
+          setToken(token);
+        })
         .catch(error => console.log(error));
+
     }, []);
 
-    const getComments = (token) => {
-        axios.get(urlAPI, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
+    useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = `token ${token}`;
+        if(token) {
+            getComments();
+        }
+      }, [token]);
+
+    const getComments = () => {
+        axios.get(urlAPI)
         .then(response => setData(response.data))
         .catch(error => console.log(error));
     }

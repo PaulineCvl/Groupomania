@@ -1,5 +1,7 @@
 @import "./utils/variables";
+@import "./utils/responsive";
 @import "./bases/typography";
+@import "./utils/keyframes";
 @import "./bases/base";
 @import "./components/header";
 @import "./layout/card";
@@ -8,6 +10,7 @@
 @import "./pages/connect";
 @import "./pages/post";
 @import "./pages/account";
+@import "./pages/home";
 @import "./pages/admin";
 @import "./components/buttons";
 @import "./bases/container";
@@ -17,3 +20,6 @@
 @import "./components/likes";
 @import "./components/comment";
 @import "./components/headerElements";
+@import "./components/loader";
+@import "./components/modal";
+@import "./components/password";

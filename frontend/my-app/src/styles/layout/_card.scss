@@ -1,11 +1,69 @@
 .card {
-    width: 400px;
-    padding: 3em;
-    margin: 0 20px 20px 0;
-    background-color: $grey;
-    border-radius: 50px;
+    max-width: 400px;
+    position: relative;
+    transform: scale(1);
+    transition: transform 300ms ease-in-out;
 
-    &-description p {
-        margin-block-start: 2em;
+    &-infos {
+        display: none;
+    }
+
+    .card-infos--visible {
+        display: inline;
+        color: $white;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(38, 58, 91, 0.8);
+        padding: 2em;
+    }
+
+    &:hover {
+        transform: scale(1.05);
+        .card-infos {
+            display: inline;
+            color: $white;
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(38, 58, 91, 0.8);
+            padding: 2em;
+        }
+    }
+
+    &-description {
+        p {
+            margin-block-start: 4em;
+            font-style: oblique;
+        }
+    }
+
+    @media #{$breakpoint-small}, #{$breakpoint-medium} {
+        margin-top: 20px;
+    }
+}
+
+.post-card {
+    position: relative;
+    margin: 0 20px 20px 0;
+
+    svg {
+        visibility: hidden;
+
+        @media #{$breakpoint-small}, #{$breakpoint-medium} {
+            visibility: visible;
+            position: absolute;
+            bottom: -7%;
+            right: 0;
+            margin: 10px;
+            color: $color-secondary;
+            font-size: 25px;
+            background-color: $grey;
+            border-radius: 50%;
+        }
     }
 }

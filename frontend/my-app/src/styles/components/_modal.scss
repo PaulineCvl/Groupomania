@@ -1,0 +1,49 @@
+.modal {
+    position: fixed;
+    left: 25%;
+    top: 25%;
+    width: 50%;
+    height: 100%;
+
+    &::after {
+        content:"";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: $color-primary;
+        transform: scale(3);
+        opacity: 0.5;
+        z-index: -1;
+    }
+
+    &-content {
+        background-color: $white;
+        padding: 1em;
+        text-align: center;
+
+        svg {
+            position: absolute;
+            right: -1%;
+            top: -3%;
+            font-size: 25px;
+            color: $color-secondary;
+            background-color: $white;
+            border-radius: 50%;
+            margin: 10px;
+            cursor: pointer;
+        }
+    }
+
+    &-username {
+        font-size: map-get($font-size, large);
+        font-family: 'MontserratBold';
+        color: $color-secondary;
+    }
+
+    img {
+        width: 50%;
+    }
+}
+

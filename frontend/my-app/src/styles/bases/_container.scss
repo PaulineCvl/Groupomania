@@ -1,13 +1,18 @@
 .background {
     background-color: $white;
     padding-top: 50px;
+    height: fit-content;
 }
 
 .container {
     width: 90%;
     margin: auto;
+}
+
+.container-background {
     background-color: $grey;
-    border-radius: 50px 50px 0 0;
+    padding: 4em 0;
+    height: 100%;
 }
 
 .content {
@@ -15,10 +20,28 @@
     width: 90%;
     margin: auto;
     padding-top: 50px;
+    background-color: $white;
+    box-shadow: 1px 1px 35px darken($grey, 25%);
 
     &-left, &-right {
         width: 50%;
         padding: 2em;
+
+        @media #{$breakpoint-small} {
+            width: 100%;
+            padding: 1em;
+        }
+
+        @media #{$breakpoint-medium} {
+            width: 80%;
+            margin: auto;
+            padding: 1em;
+        }
+    }
+
+    @media #{$breakpoint-small}, #{$breakpoint-medium} {
+        display: inline-block;
+        padding-top: 0;
     }
 }
 

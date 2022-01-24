@@ -4,28 +4,42 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs');
 require('dotenv').config();
 
+const passwordValidator = require('password-validator');
+const passwordSchema = new passwordValidator();
+
+passwordSchema
+    .is().min(8)
+    .has().uppercase()
+    .has().lowercase()
+    .has().digits();
+
 exports.signup = (req, res, next) => {
     const user = req.body.user;
     const password = user.password;
-    bcrypt.hash(password, 10)
-        .then(hash => {
-            const newUser = req.file ?
-                {
-                    ...user,
-                    password: hash,
-                    profilePicture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
-                } : {
-                    ...user,
-                    password: hash
-                }
 
-            User.create({
-                ...newUser
+    if (passwordSchema.validate(password)) {
+        bcrypt.hash(password, 10)
+            .then(hash => {
+                const newUser = req.file ?
+                    {
+                        ...user,
+                        password: hash,
+                        profilePicture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                    } : {
+                        ...user,
+                        password: hash
+                    }
+
+                User.create({
+                    ...newUser
+                })
+                    .then(user => res.status(201).json(user))
+                    .catch(error => res.status(400).json({ error }));
             })
-                .then(user => res.status(201).json(user))
-                .catch(error => res.status(400).json({ error }));
-        })
-        .catch(error => res.status(500).json({ error }));
+            .catch(error => res.status(500).json({ error }));
+    } else {
+        return res.status(400).json({ error: `Mot de passe incorrect : ${passwordSchema.validate('req.body.password', { list: true })}` });
+    }
 }
 
 exports.login = (req, res, next) => {

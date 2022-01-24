@@ -1,20 +1,14 @@
 import axios from 'axios';
-import localforage from 'localforage';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import FormData from 'form-data';
+import { FaRegImage } from 'react-icons/fa';
+import { FaPaperPlane } from 'react-icons/fa';
 
 const FormPost = (props) => {
     const [fileUploaded, setFileUploaded] = useState(null);
     const [message, setMessage] = useState('');
     const { getDatas } = props;
-    const [token, setToken] = useState();
     const imagefile = document.querySelector('#file');
-
-    useEffect(() => {
-        localforage.getItem('token')
-        .then(response => setToken(response))
-        .catch(error => console.log(error));
-    }, []);
 
     const handleChangeFile = () => {
         setFileUploaded(imagefile.files[0].name);
@@ -33,11 +27,10 @@ const FormPost = (props) => {
         axios.post('http://localhost:8080/api/posts', form, {
             headers: {
                 'Content-Type': 'multipart/form-data',
-                'Authorization': `token ${token}`
             }
         })
             .then(() => {
-                getDatas(token);
+                getDatas();
                 setFileUploaded(null);
                 setMessage('');
             })
@@ -47,16 +40,17 @@ const FormPost = (props) => {
     return (
         <div className='formPost'>
             <form onSubmit={handleSubmit}>
-                <textarea placeholder='Écrire un post' value={message} name='description' onChange={handleChangeText} />
+                <textarea placeholder='Écrire un post' value={message} name='description' onChange={handleChangeText} tabIndex="0" />
                 <div className='formPost--buttons'>
-                    <label className='button blue' htmlFor='file'>Ajouter une image</label>
-                    <input type='file' id='file' accept='image/png, image/jpg, image/jpeg' name='image' onChange={handleChangeFile} />
                     {fileUploaded ? (
                         <p className='imageUploaded'>Image ajoutée : <span>{fileUploaded}</span></p>
                     ) : (
                         <p className='imageUploaded'></p>
                     )}
-                    <input type='submit' className='button red' value='Poster' />
+                    <label className='button blue round' htmlFor='file'><FaRegImage />Ajouter une image</label>
+                    <input type='file' id='file' accept='image/png, image/jpg, image/jpeg' name='image' onChange={handleChangeFile} />
+                    <label htmlFor='submitPost' className='button red round'><FaPaperPlane />Poster</label>
+                    <input type='submit' id='submitPost' value='Poster' />
                 </div>
             </form>
         </div>

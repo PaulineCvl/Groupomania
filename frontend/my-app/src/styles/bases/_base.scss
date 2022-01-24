@@ -5,11 +5,15 @@
 body {
     font-family: 'Montserrat';
     margin: 0;
-    background-color: $color-primary;
 }
 
-html, body, #root, .App, .connect-page, .connect, .home, .account, .admin, .background, .container {
+html, body, #root, .App, .App > div, .connect-page, .connect, .home, .account, .admin, .container {
     height: 100%;
+}
+
+.App > div {
+    background-color: $white;
+    margin-top: 1em;
 }
 
 img {
@@ -21,10 +25,14 @@ form {
 }
 
 textarea {
-    border-radius: 15px;
     padding: 1em 2em;
     font-family: 'Montserrat';
     resize: none;
     width: 100%;
-    border: solid 1px $black;
+    border-style: unset;
+    background-color: $grey;
+
+    &:focus-visible {
+        outline: unset;
+    }
 }

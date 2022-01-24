@@ -1,18 +1,35 @@
 .post-content {
     &--image {
         .add-image {
-            flex-direction: row;
+            display: flex;
             align-items: baseline;
+            margin-top: 0.5em;
+            padding: 1em;
+            background-color: $grey;
         }
     }
 
     &--description {
         p {
             text-align: start;
+
+            @media #{$breakpoint-small}, #{$breakpoint-medium} {
+                text-align: center;
+            }
+        }
+
+        textarea {
+            &:focus-visible {
+                border: solid 1px darken($grey, 30%);
+            }
         }
     }
     
     &--button {
         text-align: start;
+
+        @media #{$breakpoint-small}, #{$breakpoint-medium} {
+            text-align: center;
+        }
     }      
 }

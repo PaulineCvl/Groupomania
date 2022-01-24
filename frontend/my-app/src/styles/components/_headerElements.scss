@@ -1,14 +1,37 @@
 .header-element {
+    font-size: map-get($font-size, small);
+
+    span {
+        font-size: map-get($font-size, large);
+        color: $grey;
+    }
+}
+
+.post-header, .comment-header {
     display: flex;
     justify-content: space-between;
     align-items: baseline;
 
     &--username {
         color: $color-secondary;
-        margin-right: 1em;
+        font-family: 'MontserratSemiBold';
+        cursor: pointer;
     }
 
     &--date {
         font-size: map-get($font-size, small);
     }
+
+    p {
+        @media #{$breakpoint-small} {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media #{$breakpoint-medium} {
+            font-size: map-get($font-size, x-small);
+        }
+    }
+
 }

@@ -1,19 +1,12 @@
 import axios from 'axios';
-import localforage from 'localforage';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { FaPaperPlane } from 'react-icons/fa';
 
 const Comment = (props) => {
     const [message, setMessage] = useState('');
     const { id } = props;
     const { getComments } = props;
     const urlAPI = `http://localhost:8080/api/posts/${id}/comment`;
-    const [token, setToken] = useState();
-
-    useEffect(() => {
-        localforage.getItem('token')
-        .then(response => setToken(response))
-        .catch(error => console.log(error));
-    }, []);
 
     const handleChange = (e) => {
         setMessage(e.target.value);
@@ -23,18 +16,13 @@ const Comment = (props) => {
         e.preventDefault();
 
         const newComment = {
-            message: e.target.comment.value
+            message: message
         }
 
-        axios.post(urlAPI, newComment, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
-        .then(response => {
-            getComments(token);
+        axios.post(urlAPI, newComment)
+        .then(() => {
+            getComments();
             setMessage('');
-            console.log(response);
         })
         .catch(error => console.log(error));
     }
@@ -43,7 +31,8 @@ const Comment = (props) => {
         <div className='comment-form'>
             <form onSubmit={handleSubmit}>
                 <textarea placeholder='Écrire un commentaire' name='comment' value={message} onChange={handleChange} />
-                <input type='submit' value='Commenter' className='button red' />
+                <label htmlFor='comment' className='button red round'><FaPaperPlane /></label>
+                <input type='submit' id='comment' />
             </form>
         </div>
     );

@@ -1,0 +1,51 @@
+@keyframes button {
+    0% {
+        transform: scale(1);
+    }
+
+    20% {
+        transform: scale(0.7);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes menu {
+    0% {
+        transform: scaleX(1);
+    }
+
+    25% {
+        transform: scaleX(1.1);
+    }
+
+    100% {
+        transform: scaleX(1);
+    }
+}
+
+@keyframes link {
+    0% {
+        transform: scale(1);
+    }
+
+    25% {
+        transform: scale(0.9);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes shake {
+    0%, 50%, 100% {
+        transform: scale(1);
+    }
+
+    25%, 75% {
+    transform: scale(1.1);
+    }
+}

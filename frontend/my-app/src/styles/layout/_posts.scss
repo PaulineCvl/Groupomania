@@ -1,16 +1,18 @@
 .posts-list {
     display: flex;
     flex-wrap: wrap;
-    margin-top: 75px;
-    padding: 0;
+    padding: 5em 0;
 
-    a {
-        text-decoration: none;
-        color: $black;
+    @media #{$breakpoint-small}, #{$breakpoint-medium} {
+        flex-direction: column;
+        align-items: center;
+        background-color: $grey;
+        padding: 3em 0;
     }
 }
 
 .nopost {
-    margin: 3em 0;
+    width: 90%;
+    margin: 3em auto;
     text-align: left;
 }

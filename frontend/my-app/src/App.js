@@ -7,7 +7,7 @@ import Signup from './pages/Signup';
 import Post from './pages/Post';
 import Admin from './pages/Admin';
 
-function App() {  
+function App() {
   return (
     <div className="App">
       <Routes>

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import localforage from 'localforage';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CommentUser from './CommentUser';
@@ -9,22 +8,13 @@ const ReportedComments = () => {
     const [comments, setComments] = useState([]);
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateContent, setUpdateContent] = useState('');
-    const [token, setToken] = useState();
 
     useEffect(() => {
-        localforage.getItem('token')
-        .then(token => {
-            getComments(token);
-            setToken(token);
-        })
+        getComments();
     }, []);
 
-    const getComments = (token) => {
-        axios.get('http://localhost:8080/api/comment', {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
+    const getComments = () => {
+        axios.get('http://localhost:8080/api/comment')
             .then(response => {
                 setComments(response.data);
             })
@@ -49,11 +39,7 @@ const ReportedComments = () => {
             message: updateContent ? updateContent : commentContent
         }
 
-        axios.put(`http://localhost:8080/api/posts/${post}/comment/${updateCommentId}`, commentUpdated, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
+        axios.put(`http://localhost:8080/api/posts/${post}/comment/${updateCommentId}`, commentUpdated)
             .then(() => setIsUpdating(false))
             .catch(error => console.log(error));
     }
@@ -62,12 +48,8 @@ const ReportedComments = () => {
         const deleteCommentId = e.target.closest('.comment').id;
         const postId = e.target.closest('.comment--footer').id;
 
-        axios.delete(`http://localhost:8080/api/posts/${postId}/comment/${deleteCommentId}`, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
-            .then(() => getComments(token))
+        axios.delete(`http://localhost:8080/api/posts/${postId}/comment/${deleteCommentId}`)
+            .then(() => getComments())
             .catch(error => console.log(error));
     }
 
@@ -79,12 +61,8 @@ const ReportedComments = () => {
             isReported: false
         }
 
-        axios.put(`http://localhost:8080/api/posts/${post}/comment/${updateCommentId}`, commentUpdated, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        })
-            .then(() => getComments(token))
+        axios.put(`http://localhost:8080/api/posts/${post}/comment/${updateCommentId}`, commentUpdated)
+            .then(() => getComments())
             .catch(error => console.log(error));
     }
 
@@ -97,9 +75,9 @@ const ReportedComments = () => {
                         <ul>
                             {comments.map((comment) => (
                                 <div key={comment.id} id={comment.id} className='comment' >
-                                    <div className='header-element'>
+                                    <div className='comment-header'>
                                         <CommentUser id={comment.userId} />
-                                        <p className='header-element--date'>Posté le {dateParser(comment.createdAt)}</p>
+                                        <p className='comment-header--date'>Posté le {dateParser(comment.createdAt)}</p>
                                     </div>
                                     <div className='comment--message'>
                                     {isUpdating ? (

@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import localforage from 'localforage';
 import { NavLink, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = (props) => {
     const navigate = useNavigate();
+    const [invalidUser, setInvalidUser] = useState('');
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -21,7 +22,7 @@ const Login = (props) => {
                 localforage.setItem('userId', userId);
                 navigate('/home');
             })
-            .catch(error => { console.log(error) });
+            .catch(error => setInvalidUser('Utilisateur ou mot de passe incorrect'));
     }
 
     return (
@@ -30,14 +31,27 @@ const Login = (props) => {
                 <div>
                     <img src="./icon-left-font-monochrome-white.png" alt="Logo Groupomania" />
                 </div>
-                <div>
-                    <form onSubmit={handleSubmit}>
-                        <input type='email' placeholder='Email' name='email' />
-                        <input type='password' placeholder='Mot de passe' name='password' />
-                        <input type='submit' id='loginSubmit' value='Se connecter' />
-                    </form>
-                    <NavLink to="signup">S'inscrire</NavLink>
-                </div>
+                {invalidUser ? (
+                    <div className='invalid'>
+                        <form onSubmit={handleSubmit}>
+                            <input type='email' placeholder='Email' name='email' />
+                            <input type='password' placeholder='Mot de passe' name='password' />
+                            <p className='invalid-message'>{invalidUser}</p>
+                            <input type='submit' id='loginSubmit' value='Se connecter' />
+                        </form>
+                        <NavLink to="signup">S'inscrire</NavLink>
+                    </div>
+                ) : (
+                    <div>
+                        <form onSubmit={handleSubmit}>
+                            <input type='email' placeholder='Email' name='email' />
+                            <input type='password' placeholder='Mot de passe' name='password' />
+                            <input type='submit' id='loginSubmit' value='Se connecter' />
+                        </form>
+                        <NavLink to="signup">S'inscrire</NavLink>
+                    </div>
+                )}
+
             </div>
         </div>
     );
