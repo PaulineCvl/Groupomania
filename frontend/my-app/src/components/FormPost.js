@@ -40,7 +40,8 @@ const FormPost = (props) => {
     return (
         <div className='formPost'>
             <form onSubmit={handleSubmit}>
-                <textarea placeholder='Écrire un post' value={message} name='description' onChange={handleChangeText} tabIndex="0" />
+                <label htmlFor='description'>Écrire un post</label>
+                <textarea id='description' placeholder='Écrire un post' value={message} name='description' onChange={handleChangeText} tabIndex="0" />
                 <div className='formPost--buttons'>
                     {fileUploaded ? (
                         <p className='imageUploaded'>Image ajoutée : <span>{fileUploaded}</span></p>

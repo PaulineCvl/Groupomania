@@ -65,9 +65,9 @@ const Likes = (props) => {
     return (
         <div className='likes'>
             {isLiked ? (
-                <button className='liked' onClick={() => {handleLike(); setIsLiked(false)}}><FaThumbsUp /></button>
+                <button className='liked' onClick={() => {handleLike(); setIsLiked(false)}}><FaThumbsUp />Aimer le post</button>
             ) : (
-                <button onClick={() => {handleLike(); setIsLiked(true)}}><FaRegThumbsUp /></button>
+                <button onClick={() => {handleLike(); setIsLiked(true)}}><FaRegThumbsUp />Aimer le post</button>
             )}
             <p>{data.length > 0 ? data.length : 0} personne(s) ont aimé ce post</p>
         </div>

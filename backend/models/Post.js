@@ -5,7 +5,7 @@ require('dotenv').config();
 const Like = require('./Like');
 const Comment = require('./Comment');
 
-const sequelize = new Sequelize('groupomaniatest', 'root', process.env.DB_CONNECT_SEQUELIZE, {
+const sequelize = new Sequelize('groupomania', 'root', process.env.DB_CONNECT_SEQUELIZE, {
     dialect: 'mysql'
 });
 

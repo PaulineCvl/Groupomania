@@ -88,7 +88,7 @@ const Account = () => {
                                         <div className='content-left user-account'>
                                             <img src={user.profilePicture ? user.profilePicture : img} alt='utilisateur' />
                                             <div className='update-image'>
-                                                <label htmlFor='profilePicture' className='button blue round'><FaRegImage /></label>
+                                                <label htmlFor='profilePicture' className='button blue round'><FaRegImage />Ajouter une image</label>
                                                 <input type='file' id='profilePicture' onChange={handleChangeFile} />
                                                 {imageUploaded ? (
                                                     <p className='imageUploaded'>Image ajoutée : <span>{imageUploaded}</span></p>
@@ -99,15 +99,17 @@ const Account = () => {
                                         </div>
                                         <div className='content-right user-account update-infos'>
                                             <div className='fullname'>
-                                                <input type='text' className='firstName' name='firstName' defaultValue={updateFirstName ? updateFirstName : user.firstName} onChange={(e) => setUpdateFirstName(e.target.value)} />
-                                                <input type='text' className='lastName' name='lastName' defaultValue={updateLastName ? updateLastName : user.lastName} onChange={(e) => setUpdateLastName(e.target.value)} />
+                                                <label htmlFor='userFirstName'>Prénom</label>
+                                                <input type='text' className='firstName' id='userFirstName' name='firstName' defaultValue={updateFirstName ? updateFirstName : user.firstName} onChange={(e) => setUpdateFirstName(e.target.value)} />
+                                                <label htmlFor='userLastName'>Nom</label>
+                                                <input type='text' id='userLastName' className='lastName' name='lastName' defaultValue={updateLastName ? updateLastName : user.lastName} onChange={(e) => setUpdateLastName(e.target.value)} />
                                             </div>
-                                            <label>Email :</label>
-                                            <input type='email' name='email' defaultValue={updateEmail ? updateEmail : user.email} onChange={(e) => setUpdateEmail(e.target.value)} />
-                                            <label>Mot de passe :</label>
-                                            <input type='password' name='password' defaultValue={updatePassword ? updatePassword : user.password} onChange={(e) => setUpdatePassword(e.target.value)} />
-                                            <label>Description :</label>
-                                            <textarea name='description' className='description' defaultValue={updateDescription ? updateDescription : user.description} onChange={(e) => setUpdateDescription(e.target.value)} />
+                                            <label htmlFor='email'>Email :</label>
+                                            <input type='email' id='email' name='email' defaultValue={updateEmail ? updateEmail : user.email} onChange={(e) => setUpdateEmail(e.target.value)} />
+                                            <label htmlFor='password'>Mot de passe :</label>
+                                            <input type='password' id='password' name='password' defaultValue={updatePassword ? updatePassword : user.password} onChange={(e) => setUpdatePassword(e.target.value)} />
+                                            <label htmlFor='description'>Description :</label>
+                                            <textarea name='description' id='description' className='description' defaultValue={updateDescription ? updateDescription : user.description} onChange={(e) => setUpdateDescription(e.target.value)} />
                                             <input type='submit' value='Valider' className='button blue' />
                                         </div>
                                     </form>
@@ -123,12 +125,12 @@ const Account = () => {
                                                 <p className='firstName'>{updateFirstName ? updateFirstName : user.firstName}</p>
                                                 <p className='lastName'>{updateLastName ? updateLastName : user.lastName}</p>
                                             </div>
-                                            <label>Email :</label>
-                                            <input type='email' readOnly name='email' defaultValue={updateEmail ? updateEmail : user.email} />
-                                            <label>Mot de passe :</label>
-                                            <input type='password' readOnly name='password' defaultValue={updatePassword ? updatePassword : user.password} />
-                                            <label>Description :</label>
-                                            <input type='text' placeholder='Ajouter une description' readOnly defaultValue={updateDescription ? updateDescription : user.description} className='infos--description' />
+                                            <label htmlFor='email'>Email :</label>
+                                            <input type='email' id='email' readOnly name='email' defaultValue={updateEmail ? updateEmail : user.email} />
+                                            <label htmlFor='password'>Mot de passe :</label>
+                                            <input type='password' id='password' readOnly name='password' defaultValue={updatePassword ? updatePassword : user.password} />
+                                            <label htmlFor='description'>Description :</label>
+                                            <input type='text' id='description' placeholder='Ajouter une description' readOnly defaultValue={updateDescription ? updateDescription : user.description} className='infos--description' />
                                         </form>
                                         <div className='user-account--button'>
                                             <button className='button blue' onClick={() => setIsUpdating(true)}>Modifier</button>

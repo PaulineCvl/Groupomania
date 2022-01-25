@@ -34,8 +34,10 @@ const Login = (props) => {
                 {invalidUser ? (
                     <div className='invalid'>
                         <form onSubmit={handleSubmit}>
-                            <input type='email' placeholder='Email' name='email' />
-                            <input type='password' placeholder='Mot de passe' name='password' />
+                            <label htmlFor='email'>Email</label>
+                            <input type='email' placeholder='Email' id='email' name='email' />
+                            <label htmlFor='password'>Mot de passe</label>
+                            <input type='password' placeholder='Mot de passe' id='password' name='password' />
                             <p className='invalid-message'>{invalidUser}</p>
                             <input type='submit' id='loginSubmit' value='Se connecter' />
                         </form>
@@ -44,8 +46,10 @@ const Login = (props) => {
                 ) : (
                     <div>
                         <form onSubmit={handleSubmit}>
-                            <input type='email' placeholder='Email' name='email' />
-                            <input type='password' placeholder='Mot de passe' name='password' />
+                            <label htmlFor='email'>Email</label>
+                            <input type='email' placeholder='Email' id='email' name='email' />
+                            <label htmlFor='password'>Mot de passe</label>
+                            <input type='password' placeholder='Mot de passe' id='password' name='password' />
                             <input type='submit' id='loginSubmit' value='Se connecter' />
                         </form>
                         <NavLink to="signup">S'inscrire</NavLink>

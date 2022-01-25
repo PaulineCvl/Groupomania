@@ -1,17 +1,31 @@
 import axios from 'axios';
+import localforage from 'localforage';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CommentUser from './CommentUser';
+import BeatLoader from "react-spinners/BeatLoader";
 
 const ReportedComments = () => {
     const navigate = useNavigate();
     const [comments, setComments] = useState([]);
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateContent, setUpdateContent] = useState('');
+    const [token, setToken] = useState();
 
     useEffect(() => {
-        getComments();
+        localforage.getItem('token')
+            .then(token => {
+                setToken(token);
+            })
+            .catch(error => console.log(error));
     }, []);
+
+    useEffect(() => {
+        axios.defaults.headers.common['Authorization'] = `token ${token}`;
+        if (token) {
+            getComments();
+        }
+    }, [token]);
 
     const getComments = () => {
         axios.get('http://localhost:8080/api/comment')
@@ -68,44 +82,48 @@ const ReportedComments = () => {
 
     return (
         <div className='background'>
-            <div className='container'>
-                {comments.length > 0 ? (
-                    <div className='admin-content'>
-                        <h2>Commentaires signalés :</h2>
-                        <ul>
-                            {comments.map((comment) => (
-                                <div key={comment.id} id={comment.id} className='comment' >
-                                    <div className='comment-header'>
-                                        <CommentUser id={comment.userId} />
-                                        <p className='comment-header--date'>Posté le {dateParser(comment.createdAt)}</p>
+            {token ? (
+                <div className='container'>
+                    {comments.length > 0 ? (
+                        <div className='admin-content'>
+                            <h2>Commentaires signalés :</h2>
+                            <ul>
+                                {comments.map((comment) => (
+                                    <div key={comment.id} id={comment.id} className='comment' >
+                                        <div className='comment-header'>
+                                            <CommentUser id={comment.userId} />
+                                            <p className='comment-header--date'>Posté le {dateParser(comment.createdAt)}</p>
+                                        </div>
+                                        <div className='comment--message'>
+                                            {isUpdating ? (
+                                                <textarea autoFocus defaultValue={updateContent ? updateContent : comment.message} onChange={(e) => setUpdateContent(e.target.value)} />
+                                            ) : (
+                                                <p>{updateContent ? updateContent : comment.message}</p>
+                                            )}
+                                        </div>
+                                        <div id={comment.postId} className='comment--footer'>
+                                            <button onClick={() => navigate(`/${comment.postId}`)}>Voir le post associé</button>
+                                            {isUpdating ? (
+                                                <button onClick={handleChange}>Valider</button>
+                                            ) : (
+                                                <button onClick={() => setIsUpdating(true)}>Modifier</button>
+                                            )}
+                                            <button onClick={handleDelete} className='delete'>Supprimer</button>
+                                            <button onClick={handleModerate}>Ne pas signaler</button>
+                                        </div>
                                     </div>
-                                    <div className='comment--message'>
-                                    {isUpdating ? (
-                                        <textarea autoFocus defaultValue={updateContent ? updateContent : comment.message} onChange={(e) => setUpdateContent(e.target.value)} />
-                                    ) : (
-                                        <p>{updateContent ? updateContent : comment.message}</p>
-                                    )}
-                                    </div>
-                                    <div id={comment.postId} className='comment--footer'>
-                                        <button onClick={() => navigate(`/${comment.postId}`)}>Voir le post associé</button>
-                                        {isUpdating ? (
-                                            <button onClick={handleChange}>Valider</button>
-                                        ) : (
-                                            <button onClick={() => setIsUpdating(true)}>Modifier</button>
-                                        )}
-                                        <button onClick={handleDelete} className='delete'>Supprimer</button>
-                                        <button onClick={handleModerate}>Ne pas signaler</button>
-                                    </div>
-                                </div>
-                            ))}
-                        </ul>
-                    </div>
-                ) : (
-                    <div className='admin-content'>
-                        <p className='no-reported-comments'>Pas de commentaires signalés</p>
-                    </div>
-                )}
-            </div>
+                                ))}
+                            </ul>
+                        </div>
+                    ) : (
+                        <div className='admin-content'>
+                            <p className='no-reported-comments'>Pas de commentaires signalés</p>
+                        </div>
+                    )}
+                </div>
+            ) : (
+                <BeatLoader />
+            )}
         </div>
     );
 };

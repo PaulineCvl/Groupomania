@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const { DataTypes } = Sequelize;
 require('dotenv').config();
 
-const sequelize = new Sequelize('groupomaniatest', 'root', process.env.DB_CONNECT_SEQUELIZE, {
+const sequelize = new Sequelize('groupomania', 'root', process.env.DB_CONNECT_SEQUELIZE, {
     dialect: 'mysql'
 });
 

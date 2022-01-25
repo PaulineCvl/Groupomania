@@ -66,7 +66,9 @@ const Signup = () => {
         } else {
             setValidDigit(false);
         }
+    }
 
+    const handleCheckPassword = () => {
         if (validLength && validUppercase && validLowercase && validDigit) {
             setValidPassword(true);
         } else {
@@ -79,10 +81,14 @@ const Signup = () => {
             <div className='connect'>
                 <img src="./icon-left-font-monochrome-white.png" alt="Logo Groupomania" />
                 <form onSubmit={handleSubmit}>
+                    <label htmlFor='lastName'>Nom</label>
                     <input type='text' id='lastName' placeholder='Nom' name='lastName' />
+                    <label htmlFor='firstName'>Prénom</label>
                     <input type='text' id='firstName' placeholder='Prénom' name='firstName' />
+                    <label htmlFor='email'>Email</label>
                     <input type='email' id='email' placeholder='Email' name='email' />
-                    <input type='password' id='password' placeholder='Mot de passe' name='password' onChange={handleChange} onFocus={() => setVisible(true)} />
+                    <label htmlFor='password'>Mot de passe</label>
+                    <input type='password' id='password' placeholder='Mot de passe' name='password' onChange={handleChange} onFocus={() => setVisible(true)} onBlur={handleCheckPassword} />
                     {visible ? (
                         strongPassword ? (
                             <div className='password'>

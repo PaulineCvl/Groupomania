@@ -49,6 +49,10 @@
             }
         }
 
+        .report-button {
+            font-size: 0;
+        }
+
         .delete, .reported svg {
             color: $color-secondary;
         }

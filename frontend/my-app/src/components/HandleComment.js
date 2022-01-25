@@ -134,17 +134,17 @@ const HandleComment = (props) => {
                         )}
                     </div>
                     {isReported ? (
-                        <button className='reported' onClick={handleDeleteReport}><FaExclamationTriangle /></button>
+                        <button className='report-button reported' onClick={handleDeleteReport}><FaExclamationTriangle />Signaler le commentaire</button>
                     ) : (
-                        <button onClick={handleReport}><FaExclamationTriangle /></button>
+                        <button className='report-button' onClick={handleReport}><FaExclamationTriangle />Signaler le commentaire</button>
                     )}
                 </div>
             ) : (
                 <div className='comment--footer'>
                     {isReported ? (
-                        <button className='reported' onClick={handleDeleteReport}><FaExclamationTriangle /></button>
+                        <button className='report-button reported' onClick={handleDeleteReport}><FaExclamationTriangle />Signaler le commentaire</button>
                     ) : (
-                        <button onClick={handleReport}><FaExclamationTriangle /></button>
+                        <button className='report-button' onClick={handleReport}><FaExclamationTriangle />Signaler le commentaire</button>
                     )}
                 </div>
             )}

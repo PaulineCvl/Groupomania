@@ -30,9 +30,10 @@ const Comment = (props) => {
     return (
         <div className='comment-form'>
             <form onSubmit={handleSubmit}>
-                <textarea placeholder='Écrire un commentaire' name='comment' value={message} onChange={handleChange} />
-                <label htmlFor='comment' className='button red round'><FaPaperPlane /></label>
-                <input type='submit' id='comment' />
+                <label htmlFor='create-comment'>Écrire un commentaire</label>
+                <textarea placeholder='Écrire un commentaire' id='create-comment' name='comment' value={message} onChange={handleChange} />
+                <label htmlFor='comment' className='button red round'><FaPaperPlane />Commenter</label>
+                <input type='submit' id='comment' value='Commenter' />
             </form>
         </div>
     );

@@ -8,6 +8,24 @@
         display: none;
     }
 
+    &-image {
+        img {
+            width: 400px;
+            height: 270px;
+            object-fit: cover;
+
+            @media #{$breakpoint-xsmall} {
+                width: 300px;
+                height: 200px;
+            }
+
+            @media #{$breakpoint-xxsmall} {
+                width: 175px;
+                height: 100px;
+            }
+        }
+    }
+
     .card-infos--visible {
         display: inline;
         color: $white;
