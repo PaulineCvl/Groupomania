@@ -14,6 +14,7 @@ const Signup = () => {
     const [validDigit, setValidDigit] = useState();
     const [validPassword, setValidPassword] = useState();
     const [strongPassword, setStrongPassword] = useState(true);
+    const [invalidUser, setInvalidUser] = useState('');
 
     const length = /[a-zA-Z0-9]{8,}/;
     const uppercase = /[A-Z]/;
@@ -31,12 +32,12 @@ const Signup = () => {
                 email: e.target.email.value,
                 password: e.target.password.value
             }
-    
+
             axios.post('http://localhost:8080/api/auth/signup', { user })
                 .then(() => {
                     setUserCreated(true);
                 })
-                .catch(error => console.log(error));
+                .catch(error => setInvalidUser('Cet email est déjà utilisé'));
         }
     }
 
@@ -82,11 +83,21 @@ const Signup = () => {
                 <img src="./icon-left-font-monochrome-white.png" alt="Logo Groupomania" />
                 <form onSubmit={handleSubmit}>
                     <label htmlFor='lastName'>Nom</label>
-                    <input type='text' id='lastName' placeholder='Nom' name='lastName' />
+                    <input type='text' id='lastName' placeholder='Nom' name='lastName' required />
                     <label htmlFor='firstName'>Prénom</label>
-                    <input type='text' id='firstName' placeholder='Prénom' name='firstName' />
-                    <label htmlFor='email'>Email</label>
-                    <input type='email' id='email' placeholder='Email' name='email' />
+                    <input type='text' id='firstName' placeholder='Prénom' name='firstName' required />
+                    {invalidUser ? (
+                        <div className='invalid-signup'>
+                            <label htmlFor='email'>Email</label>
+                            <input type='email' id='email' placeholder='Email' name='email' required />
+                            <p className='invalid-message'>{invalidUser}</p>
+                        </div>
+                    ) : (
+                        <div className='validEmail'>
+                            <label htmlFor='email'>Email</label>
+                            <input type='email' id='email' placeholder='Email' name='email' required />
+                        </div>
+                    )}
                     <label htmlFor='password'>Mot de passe</label>
                     <input type='password' id='password' placeholder='Mot de passe' name='password' onChange={handleChange} onFocus={() => setVisible(true)} onBlur={handleCheckPassword} />
                     {visible ? (

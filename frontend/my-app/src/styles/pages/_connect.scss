@@ -73,7 +73,16 @@
     font-size: map-get($font-size, large);
 }
 
-.invalid {
+.validEmail, .invalid-signup {
+    width: 100%;
+    margin: 0.5em;
+
+    input {
+        margin: auto !important;
+    }
+}
+
+.invalid, .invalid-signup {
     input {
         border: solid 3px $red;
 
