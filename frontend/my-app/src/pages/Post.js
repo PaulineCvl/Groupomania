@@ -129,9 +129,12 @@ const Post = () => {
                                 </div>
                                 {isUpdating ? (
                                     <div className='post-content--image'>
-                                        <img id='postImage' src={data.imageUrl} alt='Mon article' />
+                                        {data.imageUrl ? (
+                                            <img id='postImage' src={data.imageUrl} alt='Mon article' />
+                                        ) : null
+                                        }
                                         <div className='add-image'>
-                                            <label htmlFor='content-file' className='button blue round'><FaRegImage /></label>
+                                            <label htmlFor='content-file' className='button blue round' tabIndex='1'><FaRegImage /></label>
                                             <input type="file" id='content-file' accept='image/png, image/jpg, image/jpeg' onChange={handleChangeFile} />
                                             {imageUploaded ? (
                                                 <p className='imageUploaded'>Image ajoutée : <span>{imageUploaded}</span></p>
@@ -141,9 +144,11 @@ const Post = () => {
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className='post-content--image'>
-                                        <img id='postImage' src={data.imageUrl} alt='Mon article' />
-                                    </div>
+                                    data.imageUrl ? (
+                                        <div className='post-content--image'>
+                                            <img id='postImage' src={data.imageUrl} alt='Mon article' />
+                                        </div>
+                                    ) : null
                                 )}
                                 <div className='post-content--description'>
                                     {isUpdating ? (

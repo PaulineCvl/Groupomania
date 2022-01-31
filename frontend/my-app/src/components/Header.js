@@ -5,17 +5,21 @@ import axios from 'axios';
 
 const Header = () => {
     const [isAdmin, setIsAdmin] = useState();
+    const [userId, setUserId] = useState();
     const [visible, setVisible] = useState();
 
     useEffect(() => {
         localforage.getItem('userId')
-            .then(userId => {
-                axios.get(`http://localhost:8080/api/auth/${userId}`)
-                    .then(response => setIsAdmin(response.data.admin))
-                    .catch(error => console.log(error));
-            })
+            .then(userId => setUserId(userId))
             .catch(error => console.log(error));
-    }, []);
+
+        if(userId) {
+            axios.get(`http://localhost:8080/api/auth/${userId}`)
+            .then(response => setIsAdmin(response.data.admin))
+            .catch(error => console.log(error));
+        }
+
+    }, [userId]);
 
     return (
         <div className='header'>

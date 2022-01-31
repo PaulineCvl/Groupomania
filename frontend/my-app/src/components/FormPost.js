@@ -48,9 +48,9 @@ const FormPost = (props) => {
                     ) : (
                         <p className='imageUploaded'></p>
                     )}
-                    <label className='button blue round' htmlFor='file'><FaRegImage />Ajouter une image</label>
+                    <label className='button blue round' htmlFor='file' tabIndex='0'><FaRegImage />Ajouter une image</label>
                     <input type='file' id='file' accept='image/png, image/jpg, image/jpeg' name='image' onChange={handleChangeFile} />
-                    <label htmlFor='submitPost' className='button red round'><FaPaperPlane />Poster</label>
+                    <label htmlFor='submitPost' className='button red round' tabIndex='0'><FaPaperPlane />Poster</label>
                     <input type='submit' id='submitPost' value='Poster' />
                 </div>
             </form>

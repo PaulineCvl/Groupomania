@@ -88,7 +88,7 @@ const Account = () => {
                                         <div className='content-left user-account'>
                                             <img src={user.profilePicture ? user.profilePicture : img} alt='utilisateur' />
                                             <div className='update-image'>
-                                                <label htmlFor='profilePicture' className='button blue round'><FaRegImage />Ajouter une image</label>
+                                                <label htmlFor='profilePicture' className='button blue round' tabIndex='1'><FaRegImage />Ajouter une image</label>
                                                 <input type='file' id='profilePicture' onChange={handleChangeFile} />
                                                 {imageUploaded ? (
                                                     <p className='imageUploaded'>Image ajoutée : <span>{imageUploaded}</span></p>
@@ -110,7 +110,7 @@ const Account = () => {
                                             <input type='password' id='password' name='password' defaultValue={updatePassword ? updatePassword : user.password} onChange={(e) => setUpdatePassword(e.target.value)} />
                                             <label htmlFor='description'>Description :</label>
                                             <textarea name='description' id='description' className='description' defaultValue={updateDescription ? updateDescription : user.description} onChange={(e) => setUpdateDescription(e.target.value)} />
-                                            <input type='submit' value='Valider' className='button blue' />
+                                            <input type='submit' value='Valider' className='button blue' tabIndex='1' />
                                         </div>
                                     </form>
                                 </div>

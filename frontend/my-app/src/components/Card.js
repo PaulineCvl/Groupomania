@@ -15,6 +15,10 @@ const Card = (props) => {
             .catch(error => console.log(error));
     }, []);
 
+    useEffect(() => {
+        post.imageUrl ? setInfosVisible(false) : setInfosVisible(true)
+    }, []);
+
     const dateParser = (date) => {
         let newDate = new Date(date).toLocaleDateString('fr-FR', {
             month: "long",
@@ -26,45 +30,49 @@ const Card = (props) => {
 
     return (
         infosVisible ? (
-        <div className='post-card'>
-            <NavLink to={`/${post.id}`} tabIndex="0" >
-                <div className='card'>
-                    <div className='card-image'>
-                        <img src={post.imageUrl} alt={post.description} />
-                    </div>
-                    <div className='card-infos--visible'>
-                        <div className='header-element'>
-                            <p className='header-element--date'>Posté le <span>{dateParser(post.createdAt)}</span></p>
-                            <p className='header-element--username'>par <span>{user.firstName} {user.lastName}</span></p>
+            <div className='post-card'>
+                <NavLink to={`/${post.id}`} tabIndex="0" >
+                    <div className='card'>
+                        {post.imageUrl ? (
+                            <div className='card-image'>
+                                <img src={post.imageUrl} alt={post.description} />
+                            </div>
+                        ) : (
+                            null
+                        )}
+                        <div className='card-infos--visible'>
+                            <div className='header-element'>
+                                <p className='header-element--date'>Posté le <span>{dateParser(post.createdAt)}</span></p>
+                                <p className='header-element--username'>par <span>{user.firstName} {user.lastName}</span></p>
+                            </div>
+                            <div className='card-description'>
+                                <p className='card--description'>{post.description}</p>
+                            </div>
                         </div>
-                        <div className='card-description'>
-                            <p className='card--description'>{post.description}</p>
-                        </div>
                     </div>
-                </div>
-            </NavLink>
-            <FaMinusCircle onClick={() => setInfosVisible(false)} />
-        </div>
+                </NavLink>
+                <FaMinusCircle onClick={() => setInfosVisible(false)} />
+            </div>
         ) : (
             <div className='post-card'>
-            <NavLink to={`/${post.id}`} tabIndex="0" >
-                <div className='card'>
-                    <div className='card-image'>
-                        <img src={post.imageUrl} alt={post.description} />
-                    </div>
-                    <div className='card-infos'>
-                        <div className='header-element'>
-                            <p className='header-element--date'>Posté le <span>{dateParser(post.createdAt)}</span></p>
-                            <p className='header-element--username'>par <span>{user.firstName} {user.lastName}</span></p>
+                <NavLink to={`/${post.id}`} tabIndex="0" >
+                    <div className='card'>
+                        <div className='card-image'>
+                            <img src={post.imageUrl} alt={post.description} />
                         </div>
-                        <div className='card-description'>
-                            <p className='card--description'>{post.description}</p>
+                        <div className='card-infos'>
+                            <div className='header-element'>
+                                <p className='header-element--date'>Posté le <span>{dateParser(post.createdAt)}</span></p>
+                                <p className='header-element--username'>par <span>{user.firstName} {user.lastName}</span></p>
+                            </div>
+                            <div className='card-description'>
+                                <p className='card--description'>{post.description}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </NavLink>
-            <FaPlusCircle onClick={() => setInfosVisible(true)} />
-        </div> 
+                </NavLink>
+                <FaPlusCircle onClick={() => setInfosVisible(true)} />
+            </div>
         )
     );
 };

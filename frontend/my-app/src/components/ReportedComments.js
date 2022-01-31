@@ -11,6 +11,7 @@ const ReportedComments = () => {
     const [isUpdating, setIsUpdating] = useState(false);
     const [updateContent, setUpdateContent] = useState('');
     const [token, setToken] = useState();
+    const [showDeleteModal, setShowDeleteModal] = useState();
 
     useEffect(() => {
         localforage.getItem('token')
@@ -60,7 +61,7 @@ const ReportedComments = () => {
 
     const handleDelete = (e) => {
         const deleteCommentId = e.target.closest('.comment').id;
-        const postId = e.target.closest('.comment--footer').id;
+        const postId = e.target.id;
 
         axios.delete(`http://localhost:8080/api/posts/${postId}/comment/${deleteCommentId}`)
             .then(() => getComments())
@@ -101,16 +102,27 @@ const ReportedComments = () => {
                                                 <p>{updateContent ? updateContent : comment.message}</p>
                                             )}
                                         </div>
-                                        <div id={comment.postId} className='comment--footer'>
+                                        <div className='comment--footer' id={comment.postId}>
                                             <button onClick={() => navigate(`/${comment.postId}`)}>Voir le post associé</button>
                                             {isUpdating ? (
                                                 <button onClick={handleChange}>Valider</button>
                                             ) : (
                                                 <button onClick={() => setIsUpdating(true)}>Modifier</button>
                                             )}
-                                            <button onClick={handleDelete} className='delete'>Supprimer</button>
+                                            <button onClick={() => setShowDeleteModal(true)} className='delete'>Supprimer</button>
                                             <button onClick={handleModerate}>Ne pas signaler</button>
                                         </div>
+                                        {showDeleteModal ? (
+                                            <div className='modal'>
+                                                <div className='modal-content'>
+                                                    <p>Supprimer le commentaire ?</p>
+                                                    <button className='button blue' id={comment.postId} onClick={handleDelete}>Oui</button>
+                                                    <button className='button red' onClick={() => setShowDeleteModal(false)}>Non</button>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            null
+                                        )}
                                     </div>
                                 ))}
                             </ul>
