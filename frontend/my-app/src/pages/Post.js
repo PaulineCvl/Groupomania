@@ -22,6 +22,7 @@ const Post = () => {
     const [imageUploaded, setImageUploaded] = useState();
     const [showModal, setShowModal] = useState();
     const [showDeleteModal, setShowDeleteModal] = useState();
+    const [showDeleteImageModal, setShowDeleteImageModal] = useState();
 
     const urlAPI = `http://localhost:8080/api/posts/${id}`;
 
@@ -108,10 +109,10 @@ const Post = () => {
 
     const handleDeleteImage = () => {
         axios.put(`http://localhost:8080/api/posts/${id}/image`)
-        .then(() => {
-            getPost();
-        })
-        .catch(error => console.log(error));
+            .then(() => {
+                getPost();
+            })
+            .catch(error => console.log(error));
     }
 
     const handleChangeFile = (e) => {
@@ -146,7 +147,18 @@ const Post = () => {
                                             ) : (
                                                 <p></p>
                                             )}
-                                            {data.imageUrl ? <button onClick={handleDeleteImage}>Supprimer l'image</button> : null}
+                                            {data.imageUrl ? <button onClick={() => setShowDeleteImageModal(true)}>Supprimer l'image</button> : null}
+                                            {showDeleteImageModal ? (
+                                                <div className='modal'>
+                                                    <div className='modal-content'>
+                                                        <p>Supprimer l'image ?</p>
+                                                        <button className='button blue' onClick={handleDeleteImage}>Oui</button>
+                                                        <button className='button red' onClick={() => setShowDeleteImageModal(false)}>Non</button>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                null
+                                            )}
                                         </div>
                                     </div>
                                 ) : (

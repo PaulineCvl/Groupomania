@@ -18,6 +18,7 @@ const HandleComment = (props) => {
     const [allowUpdate, setAllowUpdate] = useState();
     const [showModal, setShowModal] = useState();
     const [showDeleteModal, setShowDeleteModal] = useState();
+    const [showReportModal, setShowReportModal] = useState();
 
     useEffect(() => {
         localforage.getItem('userId')
@@ -84,16 +85,6 @@ const HandleComment = (props) => {
             .catch(error => console.log(error));
     }
 
-    const handleDeleteReport = () => {
-        const commentReported = {
-            isReported: false
-        }
-
-        axios.put(urlAPI, commentReported)
-            .then(() => setIsReported(false))
-            .catch(error => console.log(error));
-    }
-
     return (
         <div key={comment.id} className='comment' >
             {user ? (
@@ -134,15 +125,24 @@ const HandleComment = (props) => {
                         )}
                     </div>
                     {isReported ? (
-                        <button className='report-button reported' onClick={handleDeleteReport}><FaExclamationTriangle />Signaler le commentaire</button>
+                        <button className='report-button reported'><FaExclamationTriangle />Signaler le commentaire</button>
                     ) : (
-                        <button className='report-button' onClick={handleReport}><FaExclamationTriangle />Signaler le commentaire</button>
+                        <div className='report'>
+                            <button className='report-button' onClick={() => setShowReportModal(true)}><FaExclamationTriangle />Signaler le commentaire</button>
+                            {showReportModal ? (
+                                <div className='report-modal'>
+                                    <p>Signaler ce commentaire ?</p>
+                                    <button className='button blue' onClick={handleReport}>Oui</button>
+                                    <button className='button red' onClick={() => setShowReportModal(false)}>Non</button>
+                                </div>
+                            ) : null}
+                        </div>
                     )}
                 </div>
             ) : (
                 <div className='comment--footer'>
                     {isReported ? (
-                        <button className='report-button reported' onClick={handleDeleteReport}><FaExclamationTriangle />Signaler le commentaire</button>
+                        <button className='report-button reported'><FaExclamationTriangle />Signaler le commentaire</button>
                     ) : (
                         <button className='report-button' onClick={handleReport}><FaExclamationTriangle />Signaler le commentaire</button>
                     )}

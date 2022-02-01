@@ -1,0 +1,14 @@
+.report {
+    position: relative;
+
+    &-modal {
+        position: absolute;
+        top: 100%;
+        left: -150%;
+        background-color: $white;
+        font-size: 11px;
+        width: max-content;
+        padding: 1em;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+    }
+}
