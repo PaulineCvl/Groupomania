@@ -106,6 +106,14 @@ const Post = () => {
             .catch(error => console.log(error));
     }
 
+    const handleDeleteImage = () => {
+        axios.put(`http://localhost:8080/api/posts/${id}/image`)
+        .then(() => {
+            getPost();
+        })
+        .catch(error => console.log(error));
+    }
+
     const handleChangeFile = (e) => {
         setImageUploaded(e.target.files[0].name);
         setUpdateImage(e.target.files[0])
@@ -129,10 +137,7 @@ const Post = () => {
                                 </div>
                                 {isUpdating ? (
                                     <div className='post-content--image'>
-                                        {data.imageUrl ? (
-                                            <img id='postImage' src={data.imageUrl} alt='Mon article' />
-                                        ) : null
-                                        }
+                                        {data.imageUrl ? <img id='postImage' src={data.imageUrl} alt='Mon article' /> : null}
                                         <div className='add-image'>
                                             <label htmlFor='content-file' className='button blue round' tabIndex='1'><FaRegImage /></label>
                                             <input type="file" id='content-file' accept='image/png, image/jpg, image/jpeg' onChange={handleChangeFile} />
@@ -141,6 +146,7 @@ const Post = () => {
                                             ) : (
                                                 <p></p>
                                             )}
+                                            {data.imageUrl ? <button onClick={handleDeleteImage}>Supprimer l'image</button> : null}
                                         </div>
                                     </div>
                                 ) : (

@@ -65,7 +65,8 @@ exports.modifyPost = (req, res, next) => {
 
 exports.deleteImage = (req, res, next) => {
     const postUpdated = {
-        description: req.body.description
+        description: req.body.description,
+        imageUrl: null
     }
 
     const updatePost = () => {

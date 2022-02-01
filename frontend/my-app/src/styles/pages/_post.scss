@@ -6,6 +6,21 @@
             margin-top: 0.5em;
             padding: 1em;
             background-color: $grey;
+
+            button {
+                background: none;
+                border-style: none;
+                text-decoration: underline;
+                font-size: map-get($font-size, small);
+                cursor: pointer;
+                padding: 0;
+                margin-right: 1em;
+                color: $color-secondary;
+
+            &:active {
+                animation: button 500ms ease-in-out;
+            }
+            }
         }
 
         .delete-image {
