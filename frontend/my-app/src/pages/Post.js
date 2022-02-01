@@ -111,6 +111,7 @@ const Post = () => {
         axios.put(`http://localhost:8080/api/posts/${id}/image`)
             .then(() => {
                 getPost();
+                setShowDeleteImageModal(false);
             })
             .catch(error => console.log(error));
     }
