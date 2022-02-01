@@ -74,38 +74,39 @@ exports.deleteImage = (req, res, next) => {
             .then(() => res.status(201).json({ message: 'Post modifié' }))
             .catch(error => res.status(400).json({ error }));
     }
-    
+
     Post.findOne({ where: { id: req.params.id } })
-            .then(post => {
-                if (post.imageUrl) {
-                    const filename = post.imageUrl.split('/images')[1];
-                    fs.unlink(`images/${filename}`, () => {
-                        updatePost();
-                    })
-                } else {
+        .then(post => {
+            if (post.imageUrl) {
+                const filename = post.imageUrl.split('/images')[1];
+                fs.unlink(`images/${filename}`, () => {
                     updatePost();
-                }
-            })
-            .catch(error => res.status(404).json({ error }));
+                })
+            } else {
+                updatePost();
+            }
+        })
+        .catch(error => res.status(404).json({ error }));
 }
 
 exports.deletePost = (req, res, next) => {
-    if (req.file) {
-        Post.findOne({ where: { id: req.params.id } })
-            .then(post => {
+    Post.findOne({ where: { id: req.params.id } })
+        .then(post => {
+            if(post.imageUrl) {
                 const filename = post.imageUrl.split('/images')[1];
                 fs.unlink(`images/${filename}`, () => {
                     Post.destroy({ where: { id: req.params.id } })
                         .then(() => res.status(200).json({ message: 'Post supprimé' }))
                         .catch(error => res.status(400).json({ error }));
                 })
-            })
-            .catch(error => res.status(404).json({ error }));
-    } else {
-        Post.destroy({ where: { id: req.params.id } })
-            .then(() => res.status(200).json({ message: 'Post supprimé' }))
-            .catch(error => res.status(400).json({ error }));
-    }
+            } else {
+                Post.destroy({ where: { id: req.params.id } })
+                        .then(() => res.status(200).json({ message: 'Post supprimé' }))
+                        .catch(error => res.status(400).json({ error }));
+            }
+
+        })
+        .catch(error => res.status(404).json({ error }));
 }
 
 exports.sendLike = (req, res, next) => {
@@ -153,16 +154,3 @@ exports.getAllLikes = (req, res, next) => {
         .then(likes => { res.status(200).json(likes) })
         .catch(error => res.status(404).json({ error }));
 }
-
-/* exports.getAllLikes = (req, res, next) => {
-    Like.findAll({ where: { postId: req.params.id } })
-        .then(likes => { 
-            User.findOne({where: {id: req.body.userId}})
-            .then(() => {
-                likes.push({userHasLiked: likes.map(currentLike => {
-                    return currentLike.userId
-                }).includes(user.id)})
-            })
-        })
-        .catch(error => res.status(404).json({ error }));
-} */
