@@ -8,7 +8,7 @@
 `nodemon server`
 
 ## Configurer le fichier .env
-DB_SECRET_TOKEN = token
+DB_SECRET_TOKEN = token \
 DB_CONNECT_SEQUELIZE = mot de passe
 
 ## Lancer le site
