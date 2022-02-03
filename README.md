@@ -3,7 +3,7 @@
 ## Cloner le projet
 
 ## Base de données
-Créer un schéma sur MySQL Workbench
+Créer un schéma sur MySQL Workbench : `CREATE DATABASE nom-de-la-base-de-données;`
 
 ## Lancer le serveur
 Depuis le dossier "PaulineChevrollier_P7_10122021" : \
@@ -18,7 +18,7 @@ Depuis le dossier "backend" :
 - Compléter le fichier .env : \
  DB_SECRET_TOKEN = token \
  DB_DATABASE_HOST = adresse de la base de données \
- DB_DATABASE_NAME = nom du schéma créé \
+ DB_DATABASE_NAME = nom de la base de données créée \
  DB_DATABASE_USERNAME = nom d'utilisateur \
  DB_DATABASE_PASSWORD = mot de passe
 
