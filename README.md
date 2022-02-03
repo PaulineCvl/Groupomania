@@ -1,6 +1,8 @@
 # Lancer le projet Groupomania
 
 ## Cloner le projet
+Ouvrir un terminal. \
+Depuis le dossier choisi : `git clone https://github.com/PaulineCvl/PaulineChevrollier_P7_10122021.git`
 
 ## Base de données
 Créer un schéma sur MySQL Workbench : `CREATE DATABASE nom-de-la-base-de-données;`
