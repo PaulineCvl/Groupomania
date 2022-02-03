@@ -23,4 +23,6 @@ Like.belongsTo(Post, {onDelete: 'CASCADE'});
 Post.hasMany(Comment, {onDelete: 'CASCADE'});
 Comment.belongsTo(Post, {onDelete: 'CASCADE'});
 
+sequelize.sync();
+
 module.exports = Post;

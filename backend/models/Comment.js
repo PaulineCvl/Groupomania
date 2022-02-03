@@ -14,4 +14,6 @@ const Comment = sequelize.define('comment', {
     freezeTableName: true,
 });
 
+sequelize.sync();
+
 module.exports = Comment;

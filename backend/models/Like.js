@@ -14,4 +14,6 @@ const Like = sequelize.define('like', {
     freezeTableName: true,
 });
 
+sequelize.sync();
+
 module.exports = Like;

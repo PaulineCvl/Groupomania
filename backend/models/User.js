@@ -33,4 +33,6 @@ Comment.belongsTo(User, {onDelete: 'CASCADE'});
 User.hasMany(Post, {onDelete: 'CASCADE'});
 Post.belongsTo(User, {onDelete: 'CASCADE'});
 
+sequelize.sync();
+
 module.exports = User;
