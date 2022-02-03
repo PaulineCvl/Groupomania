@@ -3,6 +3,7 @@ const { DataTypes } = Sequelize;
 require('dotenv').config();
 
 const sequelize = new Sequelize(process.env.DB_DATABASE_NAME, process.env.DB_DATABASE_USERNAME, process.env.DB_DATABASE_PASSWORD, {
+    host: process.env.DB_DATABASE_HOST,
     dialect: 'mysql'
 });
 
