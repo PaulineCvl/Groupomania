@@ -2,14 +2,14 @@
 
 ## Cloner le projet
 
+## Base de données
+Créer un schéma sur MySQL Workbench
+
 ## Lancer le serveur
 `cd backend`
 `npm install`
 `mkdir images`
 `nodemon server`
-
-## Base de données
-Créer un schéma sur MySQL Workbench
 
 ## Configurer le fichier .env
 DB_SECRET_TOKEN = token \
