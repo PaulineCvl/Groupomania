@@ -8,16 +8,16 @@ Depuis le dossier choisi : `git clone https://github.com/PaulineCvl/PaulineChevr
 Créer un schéma sur MySQL Workbench : `CREATE DATABASE nom-de-la-base-de-données;`
 
 ## Lancer le serveur
-Depuis le dossier "PaulineChevrollier_P7_10122021" : \
-- Aller dans le dossier backend : `cd backend` \
-- Installer les dépendances : `npm install` \
-- Créer un dossier images : `mkdir images` \
+Depuis le dossier "PaulineChevrollier_P7_10122021" :
+- Aller dans le dossier backend : `cd backend`
+- Installer les dépendances : `npm install`
+- Créer un dossier images : `mkdir images`
 - Lancer le serveur : `nodemon server`
 
 ## Configurer le fichier .env
 Depuis le dossier "backend" :
-- Créer un fichier ".env" : `touch .env` \
-- Compléter le fichier .env : \
+- Créer un fichier ".env" : `touch .env`
+- Compléter le fichier .env :
  DB_SECRET_TOKEN = token \
  DB_DATABASE_HOST = adresse de la base de données \
  DB_DATABASE_NAME = nom de la base de données créée \
@@ -25,7 +25,7 @@ Depuis le dossier "backend" :
  DB_DATABASE_PASSWORD = mot de passe
 
 ## Lancer le site
-Depuis le dossier "PaulineChevrollier_P7_10122021" : \
-- Aller dans le dossier frontend : `cd frontend/my-app` \
-- Installer les dépendances : `npm install` \
+Depuis le dossier "PaulineChevrollier_P7_10122021" :
+- Aller dans le dossier frontend : `cd frontend/my-app`
+- Installer les dépendances : `npm install`
 - Lancer le site : `npm start`
