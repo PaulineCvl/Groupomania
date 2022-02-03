@@ -33,8 +33,12 @@ Depuis le dossier "PaulineChevrollier_P7_10122021" :
 - Lancer le site : `npm start`
 
 ## Naviguer sur le site
-Commencer par se créer un compte :
-- Pour créer un compte admin, aller sur Workbench : ```UPDATE nom-de-la-base-de-données.user SET `admin`=true WHERE `id`=1;```
+- S'inscrire
+- Se connecter
+- Créer un post, liker et commenter les autres posts. Personnaliser son profil.
 
-Se connecter \
-Créer un post, liker et commenter les autres posts. Personnaliser son profil.
+> Pour avoir accès à la modération des commentaires signalés sur le site :
+> - S'inscrire
+> - Aller sur Workbench : ```UPDATE nom-de-la-base-de-données.user SET `admin`=true WHERE `id`=1;```
+> - Se connecter
+> - Aller sur l'onglet "Administration"
