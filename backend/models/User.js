@@ -6,7 +6,7 @@ const Comment = require('./Comment');
 const Like = require('./Like');
 const Post = require('./Post');
 
-const sequelize = new Sequelize('groupomania', 'root', process.env.DB_CONNECT_SEQUELIZE, {
+const sequelize = new Sequelize(process.env.DB_DATABASE_NAME, process.env.DB_DATABASE_USERNAME, process.env.DB_DATABASE_PASSWORD, {
     dialect: 'mysql'
 });
 
