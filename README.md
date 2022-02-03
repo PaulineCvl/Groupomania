@@ -12,7 +12,7 @@
 DB_SECRET_TOKEN = token \
 DB_DATABASE_NAME = nom de la base de donnée \
 DB_DATABASE_USERNAME = nom d'utilisateur \
-DB_DATABASE_PASSWORD = mot de passe \
+DB_DATABASE_PASSWORD = mot de passe
 
 ## Lancer le site
 `cd frontend/my-app`
