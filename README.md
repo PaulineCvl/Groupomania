@@ -5,6 +5,7 @@
 ## Lancer le serveur
 `cd backend`
 `npm install`
+`mkdir images`
 `nodemon server`
 
 ## Configurer le fichier .env
